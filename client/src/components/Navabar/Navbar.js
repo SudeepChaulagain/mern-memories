@@ -1,27 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import memories from '../../images/memories.png';
 import useStyles from './styles';
 import {Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LOGOUT } from '../../constants/actionTypes';
+import decode from 'jwt-decode'
 
 const Navbar = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const location = useLocation()
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
     useEffect(()=>{
+        const token  = user?.token
+        if (token) {
+            const decodedToken = decode(token)
+
+            if (decodedToken.exp * 1000 < new Date().getTime()) logout()
+        }
         setUser(JSON.parse(localStorage.getItem('profile')))
-    }, [])
+    }, [location])
 
     const logout = ()=>{
         dispatch({type:LOGOUT})
-        navigate('/auth')
         setUser(null)
+        navigate('/')
+       
     }
 
     return (

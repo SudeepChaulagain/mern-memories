@@ -8,21 +8,30 @@ import {GoogleLogin} from 'react-google-login'
 import useStyles from './styles'
 import Icon from './icon'
 import { AUTH } from '../../constants/actionTypes'
+import { signin, signup } from '../../actions/auth'
 
+const initialState= {firstName:'', lastName:'', email:'', password:'', confirmPassword:''}
 
 const Auth = () => {
     const classes = useStyles()
     const [isSignUp, setIsSignUp] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const [formData, setFormData] = useState(initialState)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const handleSubmit =  ()=> {
-
+    const handleSubmit =  (e)=> {
+        e.preventDefault()
+        if (isSignUp) {
+            dispatch(signup(formData, navigate))
+        }
+        else{
+            dispatch(signin(formData, navigate))
+        }
     }
-    const handleChange = ()=> {
-
+    const handleChange = (e)=> {
+        setFormData({...formData, [e.target.name]: e.target.value})
     }
     const handleShowPassword = ()=>{
         setShowPassword((prevShowPassword)=> !prevShowPassword)
