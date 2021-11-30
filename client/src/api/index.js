@@ -17,6 +17,7 @@ export const updatePost = (id, updatePost) => API.patch(`/posts/${id}`, updatePo
 export const deletePost = (id)=> API.delete(`/posts/${id}`)
 export const likePost = (id)=> API.patch(`/posts/${id}/likePost`)
 export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`)
+export const commentPost = (id, comment) => API.post(`/posts/${id}/commentPost`, {comment})
 
 //auth urls
 export const signIn = (formData)=> API.post('/user/signin', formData)
