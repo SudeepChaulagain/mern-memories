@@ -14,7 +14,7 @@ const Form = ({currentId, setCurrentId}) => {
         tags:'',
         selectedFile:'',
     });
-    const post = useSelector((state)=> currentId ? state.posts.find((p)=>p._id === currentId): null)
+    const post = useSelector((state)=> currentId ? state.posts.posts.find((p)=>p._id === currentId): null)
 
     const user = JSON.parse(localStorage.getItem('profile'))
 
@@ -23,19 +23,21 @@ const Form = ({currentId, setCurrentId}) => {
     },[post])
 
     const submitHandler = (e)=>{
-        e.preventDefault();
+        e.preventDefault()
         if (currentId) {
             dispatch(updatePost(currentId, postData))
+            clearHandler()
         }
         else{
-            dispatch(createPost({...postData, name:user?.result?.name}));
+            dispatch(createPost({...postData, name:user?.result?.name}))
+            clearHandler()
         }
         clearHandler()
 
     };
     const clearHandler = ()=>{
         setCurrentId(null)
-        setPostData({title:'', message:'', tags:'', selectedFile:''});
+        setPostData({title:'', message:'', tags:'', selectedFile:''})
     }
 
     if (!user?.result?.name) {
@@ -46,7 +48,7 @@ const Form = ({currentId, setCurrentId}) => {
         )
     }
     return (
-     <Paper className={classes.paper}>
+     <Paper className={classes.paper} elevation={6}>
          <form autoCapitalize="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={submitHandler}>
              <Typography variant="h6">{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</Typography>
              <TextField name="title"  outlined="true" label="Title" fullWidth value={postData.title} onChange={(e)=>setPostData({...postData, title:e.target.value})}/>

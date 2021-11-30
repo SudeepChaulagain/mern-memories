@@ -10,8 +10,8 @@ API.interceptors.request.use((req)=>{
 })
 
 //posts urls
-export const fetchPosts = ()=> API.get('/posts');
-export const createPost = (newPost)=> API.post('/posts', newPost);
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`)
+export const createPost = (newPost)=> API.post('/posts', newPost)
 export const updatePost = (id, updatePost) => API.patch(`/posts/${id}`, updatePost)
 export const deletePost = (id)=> API.delete(`/posts/${id}`)
 export const likePost = (id)=> API.patch(`/posts/${id}/likePost`)

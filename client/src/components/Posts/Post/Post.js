@@ -14,7 +14,7 @@ const Post = ({post, setCurrentId}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'))
-
+    
     const Likes = () =>{
         if (post.likes.length > 0) {
             return post.likes.find((like)=> like === (user?.result?.googleId || user?.result?._id))
@@ -30,7 +30,7 @@ const Post = ({post, setCurrentId}) => {
     }
 
     return (
-       <Card className={classes.card}>
+       <Card className={classes.card} raised elevation={6}>
            <CardMedia className={classes.media} image={post.selectedFile}/>
                <div className={classes.overlay}>
                    <Typography variant="h6">{post.creator}</Typography>
@@ -38,7 +38,7 @@ const Post = ({post, setCurrentId}) => {
                </div>
 
                <div className={classes.overlay2}>
-               {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
+               {(user?.result?.googleId === post?._id || user?.result?.name === post?.creator) && (
                    <Button style={{color: 'white'}} size="small" onClick={()=>setCurrentId(post._id)}><MoreHorizIcon fontSize="medium"/></Button>
                )}
                </div>
